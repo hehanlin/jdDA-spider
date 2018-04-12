@@ -7,7 +7,7 @@ from spider.consts import GOODDETAIL
 from chardet import detect
 from json import loads
 from math import ceil
-from spider.settings import DOWNLOADER_MIDDLEWARES
+from datetime import datetime
 
 
 class GoodDetailSpider(scrapy.Spider):
@@ -33,7 +33,9 @@ class GoodDetailSpider(scrapy.Spider):
     def parse(self, response):
         ids = response.xpath("//div[@class='dd']/div/@data-sku").extract()
         img = response.xpath("//img[@id='spec-img']/@src").get()
-        name = response.xpath("//div[@class='sku-name']/text()").get().strip()
+        name = response.xpath("//div[@class='sku-name']/text()").get()
+        if name:
+            name = name.strip()
         desc = response.xpath("//div[@class='news']/div[@id='p-ad']/@title").get()
         price = response.xpath("//div[contains(@class, 'J-summary-price')]//span[@class='p-price']/"
                                "span[contains(@class, 'price')]/text()").get()
@@ -55,7 +57,8 @@ class GoodDetailSpider(scrapy.Spider):
             desc=desc,
             price=price,
             comment_count=comment_count,
-            attr_list=attr_list
+            attr_list=attr_list,
+            update_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         )
         comment_url = GOODDETAIL.COMMENT_URL.format(
             comment_version=self.comment_version,
@@ -86,14 +89,9 @@ class GoodDetailSpider(scrapy.Spider):
             data = loads(comment_json.group(1))
             good_detail_item = response.meta.get('item')
             good_detail_item['comment_desc'] = data
-            # good_detail_item['comment_desc']['after_comments'] = list()
-            # good_detail_item['comment_desc']['img_comments'] = list()
-            # good_detail_item['comment_desc']['general_comments'] = list()
-            # good_detail_item['comment_desc']['poor_comments'] = list()
             yield good_detail_item
             # 所有评论
             max_page = data.get('maxPage', 1)
-
             yield from self.get_diff_comment(GOODDETAIL.ALL_COMMENT, max_page)
             # 追评
             after_count = data['productCommentSummary']['afterCount']

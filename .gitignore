@@ -59,3 +59,7 @@ migrations/
 
 # ipython notebook
 .ipynb_checkpoints/
+
+# docker
+mongodb/
+scrapyd/

@@ -11,13 +11,15 @@
 
 BOT_NAME = 'spider'
 
+DEV = True
+
 DEBUG = False
 
 SPIDER_MODULES = ['spider.spiders']
 NEWSPIDER_MODULE = 'spider.spiders'
 
 # mongo connection uri
-MONGO_URI = "mongodb://localhost:27017"
+MONGO_URI = "mongodb://zz.hehanlin.cn:27018" if DEV else "mongodb://zc.hehanlin.cn:27018"
 MONGO_DB = 'jdDA'
 
 ROBOT_USER_AGENT = [
@@ -64,7 +66,7 @@ PC_USER_AGENT = [
     "Mozilla/5.0 (Windows NT 6.3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36 360Browser"
 ]
 
-SPLASH_URL = 'http://localhost:8050'
+SPLASH_URL = 'http://zc.hehanlin.cn:8050' if DEV else "http://zc.hehanlin.cn:8051"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'spider (+http://www.yourdomain.com)'
@@ -111,6 +113,7 @@ DOWNLOADER_MIDDLEWARES = {
     'spider.middlewares.MyUserAgentMiddleware': 543,
     'scrapy_splash.SplashCookiesMiddleware': 723,
     'scrapy_splash.SplashMiddleware': 725,
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
     'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810
 }
 

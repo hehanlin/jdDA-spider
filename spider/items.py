@@ -21,10 +21,12 @@ class CategoryItem(scrapy.Item):
     path = scrapy.Field()   # 路径，例如: 礼品箱包-->功能箱包-->电脑包
     is_list = scrapy.Field()
     cat_id = scrapy.Field()
+    hot=scrapy.Field()
 
 
 class GoodListItem(scrapy.Item):
     _id = scrapy.Field()
+    name = scrapy.Field()
     url = scrapy.Field()
     good_num = scrapy.Field()
     page_num = scrapy.Field()
@@ -58,6 +60,7 @@ class GoodDetailItem(scrapy.Item):
     comment_count = scrapy.Field()
     attr_list = scrapy.Field()
     comment_desc = scrapy.Field()
+    update_time = scrapy.Field()
 
 
 class CommentListItem(scrapy.Item):

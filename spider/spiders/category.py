@@ -80,7 +80,7 @@ class CategorySpider(scrapy.Spider):
                 is_list = CATEGORY.LIST_NO
                 cat_id = None
             yield CategoryItem(
-                level=level, name=name, url=url, path=path, is_list=is_list, cat_id=cat_id
+                level=level, name=name, url=url, path=path, is_list=is_list, cat_id=cat_id, hot=0
             )
 
     def generate_path(self, cate_list):

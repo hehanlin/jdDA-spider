@@ -28,13 +28,14 @@ class GoodListSpider(scrapy.Spider):
         })
 
     def parse(self, response):
+        name = response.xpath("//title/text()").get()
         good_num = response.xpath("//div[@class='s-title']//span/text()").get()
         page_num = response.xpath("//div[@id='J_topPage']//i/text()").get()
         brand_list_node = response.xpath("//ul[@id='brandsArea']//a")
         brand_list = [
             {
                 'title': each.xpath("@title").get(),
-                'url': each.xpath("@href").get(),
+                'url': response.urljoin(each.xpath("@href").get()),
                 'brand_id': search(r"exbrand%5F(\d+)&", each.xpath("@href").get()).group(1)
             } for each in brand_list_node
         ]
@@ -44,7 +45,7 @@ class GoodListSpider(scrapy.Spider):
                 'title': each.xpath("div[contains(@class, 'p-name')]//em/text()").get().strip(),
                 'url': each.xpath("div[contains(@class, 'p-name')]/a/@href").get(),
                 'price': each.xpath("div[@class='p-price']/strong[@class='J_price']/i/text()").get(),
-                'commit_num': each.xpath("div[@class='p-commit']/strong/a/text()").get(),
+                'commit_num': each.xpath("div[contains(@class, 'p-commit')]/strong/a/text()").get(),
                 'shop_name': each.xpath("div[@class='p-shop']//a/@title").get(),
                 'shop_url': each.xpath("div[@class='p-shop']//a/@href").get()
             } for each in top_good_list_node
@@ -52,6 +53,7 @@ class GoodListSpider(scrapy.Spider):
         update_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         yield GoodListItem(
             _id=self._id,
+            name=name,
             url=self.url,
             good_num=good_num,
             page_num=page_num,
@@ -59,9 +61,3 @@ class GoodListSpider(scrapy.Spider):
             top_good_list=top_good_list,
             update_time=update_time
         )
-
-        
-
-
-
-

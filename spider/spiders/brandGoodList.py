@@ -20,8 +20,10 @@ class BrandGoodlistSpider(scrapy.Spider):
 
     def __init__(self, cat_id=None, brand_id=None, brand_name=None, *args, **kwargs):
         super(BrandGoodlistSpider, self).__init__(*args, **kwargs)
-        self.start_url_templete = f"http://list.jd.com/list.html?cat={cat_id}&ev=exbrand_{brand_id}&page=%d" \
-                                  f"&delivery=1&delivery_daofu=3&stock=1&sort=sort_commentcount_desc&trans=1"
+        self.start_url_templete = "http://list.jd.com/list.html?cat={cat_id}&ev=exbrand_{brand_id}&page=%d" \
+                                  "&delivery=1&delivery_daofu=3&stock=1&sort=sort_commentcount_desc&trans=1".format(
+            cat_id=cat_id, brand_id=brand_id
+        )
         self.start_url = self.start_url_templete % 1
         self.brand_name = brand_name
         self._id = cat_id+"_"+brand_id
