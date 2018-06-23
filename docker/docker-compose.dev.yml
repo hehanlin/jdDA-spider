@@ -9,13 +9,8 @@ services:
                         - ./scrapyd:/var/lib/scrapyd
                 restart: always
                 links:
-                  - splash:zc.hehanlin.cn
-                  - mongodb:zz.hehanlin.cn
-        splash:
-                image: scrapinghub/splash
-                ports:
-                        - 8050:8050
-                restart: always
+                  - mongodb:mongodb
+                  - splash:splash
         mongodb:
                 image: mongo
                 volumes:
@@ -23,3 +18,9 @@ services:
                 ports:
                         - 27018:27017
                 restart: always
+        splash:
+                image: scrapinghub/splash
+                ports:
+                        - 8050:8050
+                restart: always
+

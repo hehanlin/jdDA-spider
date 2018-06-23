@@ -33,7 +33,7 @@ class GoodDetailSpider(scrapy.Spider):
     def parse(self, response):
         ids = response.xpath("//div[@class='dd']/div/@data-sku").extract()
         img = response.xpath("//img[@id='spec-img']/@src").get()
-        name = response.xpath("//div[@class='sku-name']/text()").get()
+        name = response.xpath("//div[contains(@class, 'item ellipsis')]/@title").get()
         if name:
             name = name.strip()
         desc = response.xpath("//div[@class='news']/div[@id='p-ad']/@title").get()
@@ -94,17 +94,17 @@ class GoodDetailSpider(scrapy.Spider):
             max_page = data.get('maxPage', 1)
             yield from self.get_diff_comment(GOODDETAIL.ALL_COMMENT, max_page)
             # 追评
-            after_count = data['productCommentSummary']['afterCount']
-            after_page = ceil(after_count/GOODDETAIL.COMMENT_PAGE_NUM)
-            yield from self.get_diff_comment(GOODDETAIL.AFTER_COMMENT, after_page)
-            # 有图
-            img_count = data['imageListCount']
-            img_page = ceil(img_count/GOODDETAIL.COMMENT_PAGE_NUM)
-            yield from self.get_diff_comment(GOODDETAIL.IMG_COMMENT, img_page)
-            # 中评
-            general_count = data['productCommentSummary']['generalCount']
-            general_page = ceil(general_count/GOODDETAIL.COMMENT_PAGE_NUM)
-            yield from self.get_diff_comment(GOODDETAIL.GENERAL_COMMENT, general_page)
+            # after_count = data['productCommentSummary']['afterCount']
+            # after_page = ceil(after_count/GOODDETAIL.COMMENT_PAGE_NUM)
+            # yield from self.get_diff_comment(GOODDETAIL.AFTER_COMMENT, after_page)
+            # # 有图
+            # img_count = data['imageListCount']
+            # img_page = ceil(img_count/GOODDETAIL.COMMENT_PAGE_NUM)
+            # yield from self.get_diff_comment(GOODDETAIL.IMG_COMMENT, img_page)
+            # # 中评
+            # general_count = data['productCommentSummary']['generalCount']
+            # general_page = ceil(general_count/GOODDETAIL.COMMENT_PAGE_NUM)
+            # yield from self.get_diff_comment(GOODDETAIL.GENERAL_COMMENT, general_page)
             # 差评
             poor_count = data['productCommentSummary']['poorCount']
             poor_page = ceil(poor_count/GOODDETAIL.COMMENT_PAGE_NUM)

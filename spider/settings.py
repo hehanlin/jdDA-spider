@@ -11,15 +11,13 @@
 
 BOT_NAME = 'spider'
 
-DEV = True
-
-DEBUG = False
+DEBUG = True
 
 SPIDER_MODULES = ['spider.spiders']
 NEWSPIDER_MODULE = 'spider.spiders'
 
 # mongo connection uri
-MONGO_URI = "mongodb://zz.hehanlin.cn:27018" if DEV else "mongodb://zc.hehanlin.cn:27018"
+MONGO_URI = "mongodb://mongodb:27017"
 MONGO_DB = 'jdDA'
 
 ROBOT_USER_AGENT = [
@@ -66,7 +64,7 @@ PC_USER_AGENT = [
     "Mozilla/5.0 (Windows NT 6.3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36 360Browser"
 ]
 
-SPLASH_URL = 'http://zc.hehanlin.cn:8050' if DEV else "http://zc.hehanlin.cn:8051"
+SPLASH_URL = 'http://splash:8050'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'spider (+http://www.yourdomain.com)'
