@@ -1,15 +1,26 @@
 version: '2'
 
 services:
-        nginx:
-                image: nginx
+        scrapyd:
+                image: hehanlin/scrapyd
                 ports:
-                        - 8051:80
+                        - 6800:6800
                 volumes:
-                        - ./nginx:/etc/nginx/
+                        - ./scrapyd:/var/lib/scrapyd
+                restart: always
+                links:
+                  - mongodb:mongodb
+                  - splash:splash
+        mongodb:
+                image: mongo
+                volumes:
+                        - ./mongodb:/data/db
+                ports:
+                        - 27018:27017
                 restart: always
         splash:
                 image: scrapinghub/splash
                 ports:
                         - 8050:8050
                 restart: always
+
